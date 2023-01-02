@@ -218,3 +218,5 @@ poetry.toml
 
 .pkl
 *.pkl
+
+uploads/
