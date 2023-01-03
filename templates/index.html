@@ -1,25 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
-<form id="uploadImage" method="POST" action="/" enctype="multipart/form-data">
-  <div class="col-md-12">
-    <div class="form-page">
-      <div class="wsk-cp-text2">
-        <div class="category2">
-          <div class="row">
-            <div class="labeldata">
-              <label>Select a Range to get Recommendation</label>
-            </div>
-            <div class="inputRange">
-              <input type="range" min="1" max="20" name="MyRange" value="5" class="slider" id="myRange" style="width: 250%;"/><span style="padding-left:10px ;" id="demo"></span>
-            </div>
-            <div class="newbutton">
-              <input type="file" name="uploadFile" id="uploadFile" accept=".jpg, .png, .jpeg">
-              <input type="submit" id="uploadSubmit" value="Upload" class="button" />
+<div class="shell">
+  <div class="container">
+    <form id="uploadImage" method="POST" action="/" enctype="multipart/form-data">
+      <div class="col-md-12">
+        <div class="form-page">
+          <div class="wsk-cp-text2">
+            <div class="category2">
+              <div class="row">
+                <div class="labeldata">
+                  <label>Choose a Range to get Recommendation</label>
+                </div>
+                <div class="inputRange">
+                  <input type="range" min="1" max="20" name="MyRange" value="5" class="slider" id="myRange" style="width: 250%;"/><span style="padding-left:10px ;" id="demo"></span>
+                </div>
+                <div class="newbutton">
+                  <input type="file" name="uploadFile" id="uploadFile" accept=".jpg, .png, .jpeg">
+                  <input type="submit" id="uploadSubmit" value="Upload" class="button" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
-</form>
+</div>
 {% endblock %}
