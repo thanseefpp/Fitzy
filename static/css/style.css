@@ -40,7 +40,7 @@ body{
   box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 }
 .wsk-cp-text{
-  padding-top:150%;
+  padding-top:155%;
 }
 .wsk-cp-text .category{
   text-align:center;
@@ -196,4 +196,75 @@ a.buy-btn{
   background: #FF9800;
   color: #fff;
 }
+}
+.wsk-cp-text2{
+  width: 40vw;
+  height: 30vh;
+  background-color: lightgray;
+  align-items: center;
+  justify-content: center;
+  margin-left: 24%;
+  border-radius: 15px;
+}
+
+.category2{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.newbutton{
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin-top: 60px;
+}
+
+.inputRange{
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin-top: 20px;
+}
+.labeldata{
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin-top: 20px;
+}
+
+
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  background: #7b7b7b;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #FF9800;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #FF9800;
+  cursor: pointer;
 }

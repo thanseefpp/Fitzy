@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fitzy</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="400" />
+  <meta property="og:image:height" content="300" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename = 'css/style.css') }}">
+
+  <!-- ajax start -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
+  <!-- ajax end -->
+  
+</head>
+
+<body>
+  <div class="container text-center">
+    <h1 style="font-family: 'East Sea Dokdo', cursive;font-size: 150px;">Fitzy</h1>
+    <span>Created <i class="zmdi zmdi-favorite red"></i> By:<i><a href="https://thanseefuddeen.xyz/"
+          class="wsk-btn">Thanseef</a></i></span>
+  </div>
+
+  <div class="shell">
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </div>
+</body>
+  {% block script %}{% endblock %}
+</html>
