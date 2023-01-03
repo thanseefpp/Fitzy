@@ -1,9 +1,5 @@
-{% extends 'base.html' %}
-
-{% block content %}
-
 {% if filename %}
-  <div class="row" id="uploaded">
+  <div class="row" id="test">
       <div class="col-md-6">
         <div class="wsk-cp-product">
           <div class="wsk-cp-img">
@@ -12,77 +8,22 @@
               alt="Product" class="img-responsive" />
           </div>
           <div class="wsk-cp-text">
-            </div>
+          </div>
           </div>
         </div>
       </div>
+      {% for filepath in filesPathList %}
       <div class="col-md-3">
         <div class="wsk-cp-product">
           <div class="wsk-cp-img">
             <img
-              src="/static/uploads/{{ filename }}"
+              src="https://fitzy-models.s3.ap-south-1.amazonaws.com/{{filepath}}"
               alt="Product" class="img-responsive" />
           </div>
           <div class="wsk-cp-text">
           </div>
         </div>
       </div>
-      <div class="col-md-3">
-        <div class="wsk-cp-product">
-          <div class="wsk-cp-img">
-            <img
-              src="/static/uploads/{{ filename }}"
-              alt="Product" class="img-responsive" />
-          </div>
-          <div class="wsk-cp-text">
-
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="wsk-cp-product">
-          <div class="wsk-cp-img">
-            <img
-              src="/static/uploads/{{ filename }}"
-              alt="Product" class="img-responsive" />
-          </div>
-          <div class="wsk-cp-text">
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="wsk-cp-product">
-          <div class="wsk-cp-img">
-            <img
-              src="/static/uploads/{{ filename }}"
-              alt="Product" class="img-responsive" />
-          </div>
-          <div class="wsk-cp-text">
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="wsk-cp-product">
-          <div class="wsk-cp-img">
-            <img
-              src="/static/uploads/{{ filename }}"
-              alt="Product" class="img-responsive" />
-          </div>
-          <div class="wsk-cp-text">
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="wsk-cp-product">
-          <div class="wsk-cp-img">
-            <img
-              src="/static/uploads/{{ filename }}"
-              alt="Product" class="img-responsive" />
-          </div>
-          <div class="wsk-cp-text">
-          </div>
-        </div>
-      </div>
+      {% endfor %}
     </div>
 {% endif %}
-{% endblock %}

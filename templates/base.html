@@ -21,7 +21,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
   <!-- ajax end -->
-  
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <body>
@@ -35,8 +35,40 @@
     <div class="container">
       {% block content %}
       {% endblock %}
+      <div id="targetLayer" style="display:none;"></div>
     </div>
   </div>
 </body>
-  {% block script %}{% endblock %}
+
+<script>
+  var slider = document.getElementById("myRange");
+  var output = document.getElementById("demo");
+  output.innerHTML = slider.value;
+  slider.oninput = function() {
+    output.innerHTML = this.value;
+  }
+  $(document).ready(function(){
+      $('#uploadImage').submit(function(event){
+          if($('#uploadFile').val()){
+              event.preventDefault();
+              $('#loader-icon').show();
+              $('#targetLayer').hide();
+              $(this).ajaxSubmit({
+                  target: '#targetLayer',
+                  success:function(data){
+                    $('#loader-icon').hide();
+                    $('#targetLayer').show();
+                    $('#targetLayer').append(data.success_response);
+                    $('#uploadImage').hide();
+                  },
+                  resetForm: true
+              });
+          }
+          else{
+            swal("Warning!", "Please Choose an Image", "error");
+            return false;
+          }
+      });
+  });
+  </script>
 </html>

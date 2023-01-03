@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<form id="uploadImage" method="post" action="/" enctype="multipart/form-data">
+<form id="uploadImage" method="POST" action="/" enctype="multipart/form-data">
   <div class="col-md-12">
     <div class="form-page">
       <div class="wsk-cp-text2">
@@ -10,7 +10,7 @@
               <label>Select a Range to get Recommendation</label>
             </div>
             <div class="inputRange">
-              <input type="range" min="1" max="10" value="5" class="slider" id="myRange" style="width: 250%;"/><span style="padding-left:10px ;" id="demo"></span>
+              <input type="range" min="1" max="20" name="MyRange" value="5" class="slider" id="myRange" style="width: 250%;"/><span style="padding-left:10px ;" id="demo"></span>
             </div>
             <div class="newbutton">
               <input type="file" name="uploadFile" id="uploadFile" accept=".jpg, .png, .jpeg">
@@ -19,35 +19,7 @@
           </div>
         </div>
       </div>
-      <div id="targetLayer" style="display:none;"></div>
     </div>
   </div>
 </form>
 {% endblock %}
-{% block script %}
-<script>
-  var slider = document.getElementById("myRange");
-  var output = document.getElementById("demo");
-  output.innerHTML = slider.value;
-  slider.oninput = function() {
-    output.innerHTML = this.value;
-  }
-  $(document).ready(function(){
-      $('#uploadImage').submit(function(event){
-          if($('#uploadFile').val()){
-              event.preventDefault();
-              $('#loader-icon').show();
-              $('#targetLayer').hide();
-              $(this).ajaxSubmit({
-                  target: '#targetLayer',
-                  success:function(data){
-                      
-                  },
-                  resetForm: true
-              });
-          }
-          return false;
-      });
-  });
-  </script>
-  {% endblock %}

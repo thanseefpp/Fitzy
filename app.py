@@ -43,11 +43,28 @@ def allowed_file(filename):
 
 def save_uploaded_file(uploaded_file):
     try:
-        with open(os.path.join('static/uploads', uploaded_file.name), 'wb') as f:
+        with open(os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.filename), 'wb') as f:
             f.write(uploaded_file.getbuffer())
         return 1
     except:
         return 0
+    
+def extract_features(img_path, model):
+    img = load_img(img_path, target_size=(224, 224, 3))
+    img_array = img_to_array(img)
+    expanded_img_array = np.expand_dims(img_array, axis=0)
+    preprocessed_img = preprocess_input(expanded_img_array)
+    result = model.predict(preprocessed_img).flatten()
+    normalized_result = result / norm(result)
+    return normalized_result
+
+def get_nearest_neighbors(features, feature_list,number_of_recommendation):
+    neighbors = NearestNeighbors(n_neighbors=number_of_recommendation, algorithm='brute', metric='euclidean')
+    # print(f"neighbors ------------------------------: {neighbors}")
+    neighbors.fit(feature_list)
+    distances, indices = neighbors.kneighbors([features])
+    # print(f'distance :{distances},\nindices :{indices}')
+    return indices
 
 @app.route('/')
 def landing_page():
@@ -57,14 +74,24 @@ def landing_page():
 def upload_image():
     if 'uploadFile' not in request.files:
         return redirect(request.url)
-    files = request.files.get('uploadFile')
-    if files and allowed_file(files.filename):
-        filename = secure_filename(files.filename)
-        files.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        msg = 'File successfully uploaded to /static/uploads!'
-    else:
-        msg = 'Invalid Upload only png, jpg, jpeg, gif'
-    return jsonify({'success_response': render_template('response.html', msg=msg, filename=filename)})
+    user_range = request.form['MyRange']
+    filenames_path = []
+    file = request.files.get('uploadFile')
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        img_saved = save_uploaded_file(file)
+        if img_saved != 0:
+            #image feature extract using Resnet50 model
+            feature_extracted = extract_features(os.path.join(app.config['UPLOAD_FOLDER'], file.filename), model)
+            nearest_neighbours_indices = get_nearest_neighbors(features=feature_extracted,feature_list=feature_list,number_of_recommendation=int(user_range))
+            for count in range(0,int(user_range)):
+                # print(count)
+                filenames_path.append(filenames[nearest_neighbours_indices[0][count]])
+            # print(f"filenames_path : {filenames_path}")
+            msg = 'Successfully Uploaded'
+        else:
+            msg = 'Invalid Upload only png, jpg, jpeg'
+    return jsonify({'success_response': render_template('response.html', msg=msg,filename=filename, filesPathList=filenames_path)})
 
 ################################### EXECUTE APPLICATION #################################
 
