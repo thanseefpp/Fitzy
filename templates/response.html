@@ -1,7 +1,14 @@
+{% if not filename %}
+    <div class="shell">
+      <div class="container">
+        <p><span>{{ msg }}</span></p>
+      </div>
+      </div>
+{% endif %}
+
 {% if filename %}
     <div class="shell">
       <div class="container">
-  
         <div class="row">
           <div class="col-md-6">
             <div class="wsk-cp-product">
@@ -10,7 +17,7 @@
               </div>
               <div class="wsk-cp-text">
                 <div class="category">
-                  <span>Uploaded Image</span>
+                  <span>{{ msg }}</span>
                 </div>
               </div>
             </div>
