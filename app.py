@@ -6,7 +6,6 @@ import numpy as np
 from keras.utils import load_img, img_to_array
 from keras.applications.resnet import ResNet50,preprocess_input
 from keras.layers import GlobalMaxPooling2D
-# from numpy.linalg import norm
 import os
 import pickle
 from sklearn.neighbors import NearestNeighbors

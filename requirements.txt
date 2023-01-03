@@ -1,0 +1,8 @@
+wheel
+keras
+pillow
+scipy
+scikit-learn
+Flask==2.2.2
+boto3==1.26.41
+protobuf==3.20.0

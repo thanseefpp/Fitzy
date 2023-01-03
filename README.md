@@ -1,34 +1,37 @@
-# Fitzy
+# Fitzy ( Apparels Recommendation )
 
-## Table of Contents
+## About <a name = "about"></a>
 
-- [About](#about)
-- [Getting Started](#getting_started)
-- [Usage](#usage)
-- [Contributing](../CONTRIBUTING.md)
+This project made for apparels recommendation, We have trained the model with 44k image dataset using from kaggle, Here using Deep learning model Resnet50 CNN Model to extract image features and Using sklearn NearestNeighbors Algorithm to find the matching Images for Recommendation.
+
 
 ### Prerequisites
 
-What things you need to install the software and how to install them.
-
-```
-Give examples
-```
+Python3 Must be installed on your device.
 
 ### Installing
 
 A step by step series of examples that tell you how to get a development env running.
 
-Say what the step will be
+1. Install Virtual Env
 
 ```
-Give the example
+python3 -m pip install --user virtualenv pipenv
 ```
 
-And repeat
+2. Initialize Env
 
 ```
-until finished
+python3 -m venv env
+```
+3. Activate Env
+```
+source env/bin/activate
+```
+4. Install Requirements
+
+```
+pip install -r requirements.txt
 ```
 
-End with an example of getting some data out of the system or using it for a little demo.
+please follow my instagram [@thanseeftsf](https://www.instagram.com/thanseeftsf/) and ask any doubts.
