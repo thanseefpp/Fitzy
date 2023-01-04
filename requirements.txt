@@ -1,8 +1,9 @@
-wheel
+flask
 keras
+uwsgi
 pillow
+numpy
+pandas
 scipy
 scikit-learn
-Flask==2.2.2
-boto3==1.26.41
-protobuf==3.20.0
+tensorflow

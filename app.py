@@ -101,6 +101,7 @@ def upload_image():
         5. Appending the featured image from the filename model, there we have stored the path of the images while training the model.
         6. return response will server to response.html file
     """
+    app.logger.debug('Running Upload and Processing')
     if 'uploadFile' not in request.files:
         return redirect(request.url)
     user_range = request.form['MyRange']
@@ -123,4 +124,4 @@ def upload_image():
 ################################### EXECUTE APPLICATION #################################
 
 if __name__ == "__main__":
-    app.run(debug = False)
+    app.run(host='0.0.0.0', port=int("3000"),debug=True)
