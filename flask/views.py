@@ -13,10 +13,10 @@ from werkzeug.utils import secure_filename
 
 ################################### APP CONFIGURATIONS ########################################
 
-app = Flask(__name__)
+server = Flask(__name__)
 UPLOAD_FOLDER = 'static/uploads/'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.secret_key = "fitzy-apparels-recommendation"
+server.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+server.secret_key = "fitzy-apparels-recommendation"
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
 
 ################################### LOADING MODELS ######################################
@@ -47,7 +47,7 @@ def save_uploaded_file(uploaded_file):
         'static/uploads' files keep in this folder
     """
     try:
-        with open(os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.filename), 'wb') as f:
+        with open(os.path.join(server.config['UPLOAD_FOLDER'], uploaded_file.filename), 'wb') as f:
             f.write(uploaded_file.getbuffer())
         return 1
     except:
@@ -81,14 +81,17 @@ def get_nearest_neighbors(features, feature_list,number_of_recommendation):
     distances, indices = neighbors.kneighbors([features])
     return indices
 
-@app.route('/')
+@server.route('/')
 def landing_page():
     """
         landing page upload image form will appear on this screen.
     """
+    current_folder_path, current_folder_name = os.path.split(os.getcwd())
+    server.logger.debug(f"current_folder_path :{current_folder_path},current_folder_name : {current_folder_name}")
+    print(f"Testing ############################################### :{current_folder_path},@@@@@@@@@@@@@ :{current_folder_name}")
     return render_template("index.html")
 
-@app.route('/', methods=['POST'])
+@server.route('/', methods=['POST'])
 def upload_image():
     """
         Main Function 
@@ -101,7 +104,7 @@ def upload_image():
         5. Appending the featured image from the filename model, there we have stored the path of the images while training the model.
         6. return response will server to response.html file
     """
-    app.logger.debug('Running Upload and Processing')
+    server.logger.debug('Running Upload and Processing')
     if 'uploadFile' not in request.files:
         return redirect(request.url)
     user_range = request.form['MyRange']
@@ -112,7 +115,7 @@ def upload_image():
         img_saved = save_uploaded_file(file)
         if img_saved != 0:
             #image feature extract using Resnet50 model
-            feature_extracted = extract_features(os.path.join(app.config['UPLOAD_FOLDER'], file.filename), model)
+            feature_extracted = extract_features(os.path.join(server.config['UPLOAD_FOLDER'], file.filename), model)
             nearest_neighbours_indices = get_nearest_neighbors(features=feature_extracted,feature_list=feature_list,number_of_recommendation=int(user_range))
             for count in range(0,int(user_range)):
                 filenames_path.append(filenames[nearest_neighbours_indices[0][count]])

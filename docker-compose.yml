@@ -1,18 +1,19 @@
-version: '3.7'
+version: '3'
 
 services:
   flask:
-    build: ./flask
     container_name: flask
     restart: always
-    environment: 
-      - APP_NAME=fitzyApp
-    expose:
-      - 8080
-  
+    build: ./flask
+    ports:
+      - "8000:8000"
+    command: gunicorn -w 1 -b 0.0.0.0:8000 wsgi:server
+
   nginx:
-    build: ./nginx
     container_name: nginx
     restart: always
+    build: ./nginx
     ports:
       - "80:80"
+    depends_on:
+      - flask

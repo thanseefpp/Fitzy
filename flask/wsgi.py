@@ -1,6 +1,6 @@
-from views import app
+from views import server
 
 ################################### EXECUTE APPLICATION #################################
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',debug=False)
+    server.run(host='0.0.0.0', port=8000)
