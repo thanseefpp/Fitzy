@@ -120,8 +120,3 @@ def upload_image():
         else:
             msg = 'Invalid Upload only png, jpg, jpeg'
     return jsonify({'success_response': render_template('response.html', msg=msg,filename=filename, filesPathList=filenames_path)})
-
-################################### EXECUTE APPLICATION #################################
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=int("3000"),debug=True)
