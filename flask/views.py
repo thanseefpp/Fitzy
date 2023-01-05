@@ -11,7 +11,6 @@ import pickle
 from sklearn.neighbors import NearestNeighbors
 from werkzeug.utils import secure_filename
 import boto3
-from botocore.exceptions import NoCredentialsError
 
 ################################### APP CONFIGURATIONS ########################################
 
