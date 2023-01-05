@@ -10,6 +10,8 @@ import os
 import pickle
 from sklearn.neighbors import NearestNeighbors
 from werkzeug.utils import secure_filename
+import boto3
+from botocore.exceptions import NoCredentialsError
 
 ################################### APP CONFIGURATIONS ########################################
 
@@ -18,6 +20,10 @@ UPLOAD_FOLDER = 'static/uploads/'
 server.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 server.secret_key = "fitzy-apparels-recommendation"
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
+# S3 Bucket folder path and Bucket name 
+s3_client = boto3.client('s3')
+bucket_name = 'fitzy-models'
+folder_path = "static/uploads/"
 
 ################################### LOADING MODELS ######################################
 
@@ -49,6 +55,7 @@ def save_uploaded_file(uploaded_file):
     try:
         with open(os.path.join(server.config['UPLOAD_FOLDER'], uploaded_file.filename), 'wb') as f:
             f.write(uploaded_file.getbuffer())
+        s3_client.upload_file(os.path.join(server.config['UPLOAD_FOLDER'], uploaded_file.filename),bucket_name,f"{folder_path}{uploaded_file.filename}")
         return 1
     except:
         return 0
@@ -88,7 +95,6 @@ def landing_page():
     """
     current_folder_path, current_folder_name = os.path.split(os.getcwd())
     server.logger.debug(f"current_folder_path :{current_folder_path},current_folder_name : {current_folder_name}")
-    print(f"Testing ############################################### :{current_folder_path},@@@@@@@@@@@@@ :{current_folder_name}")
     return render_template("index.html")
 
 @server.route('/', methods=['POST'])
@@ -123,3 +129,6 @@ def upload_image():
         else:
             msg = 'Invalid Upload only png, jpg, jpeg'
     return jsonify({'success_response': render_template('response.html', msg=msg,filename=filename, filesPathList=filenames_path)})
+
+if __name__ == "__main__":
+    server.run(debug=True,port=3000)

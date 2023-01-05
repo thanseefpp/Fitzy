@@ -1,10 +1,14 @@
 flask
 gunicorn
-keras
-uwsgi
 pillow
 numpy
 pandas
 scipy
 scikit-learn
+keras
 tensorflow
+# tensorflow-cpu
+# tensorflow~=2.6.0
+# keras~=2.6.0
+# uwsgi
+# bz2file
