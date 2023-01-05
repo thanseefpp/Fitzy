@@ -4,6 +4,7 @@
 
 This project made for apparels recommendation, We have trained the model with 44k image dataset using from kaggle, Here using Deep learning model Resnet50 CNN Model to extract image features and Using sklearn NearestNeighbors Algorithm to find the matching Images for Recommendation.
 
+![fitzyGif](https://user-images.githubusercontent.com/62167887/210855251-999bcaea-c485-44b2-b3d5-c752020bbb66.gif)
 
 ## Project is Docker containerized
 
