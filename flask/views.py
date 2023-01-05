@@ -22,7 +22,6 @@ ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
 # S3 Bucket folder path and Bucket name 
 s3_client = boto3.client('s3')
 bucket_name = 'fitzy-models'
-folder_path = "static/uploads/"
 
 ################################### LOADING MODELS ######################################
 
@@ -54,7 +53,7 @@ def save_uploaded_file(uploaded_file):
     try:
         with open(os.path.join(server.config['UPLOAD_FOLDER'], uploaded_file.filename), 'wb') as f:
             f.write(uploaded_file.getbuffer())
-        s3_client.upload_file(os.path.join(server.config['UPLOAD_FOLDER'], uploaded_file.filename),bucket_name,f"{folder_path}{uploaded_file.filename}")
+        s3_client.upload_file(os.path.join(server.config['UPLOAD_FOLDER'], uploaded_file.filename),bucket_name,f"{UPLOAD_FOLDER}{uploaded_file.filename}")
         return 1
     except:
         return 0
