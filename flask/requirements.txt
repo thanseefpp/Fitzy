@@ -8,6 +8,7 @@ scikit-learn
 keras
 tensorflow
 boto3
+python-dotenv
 # tensorflow-cpu
 # tensorflow~=2.6.0
 # keras~=2.6.0

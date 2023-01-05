@@ -5,6 +5,8 @@ services:
     container_name: flask
     restart: always
     build: ./flask
+    env_file:
+      - .env
     ports:
       - "8000:8000"
     command: gunicorn -w 1 -b 0.0.0.0:8000 wsgi:server

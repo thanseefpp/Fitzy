@@ -11,6 +11,8 @@ import pickle
 from sklearn.neighbors import NearestNeighbors
 from werkzeug.utils import secure_filename
 import boto3
+from dotenv import load_dotenv   #for python-dotenv method
+load_dotenv()                    #for python-dotenv method
 
 ################################### APP CONFIGURATIONS ########################################
 
@@ -20,8 +22,16 @@ server.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 server.secret_key = "fitzy-apparels-recommendation"
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
 # S3 Bucket folder path and Bucket name 
-s3_client = boto3.client('s3')
 bucket_name = 'fitzy-models'
+
+ACCESS_KEY = os.environ.get('ACCESS_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
+
+session = boto3.Session(
+    aws_access_key_id=ACCESS_KEY,
+    aws_secret_access_key=SECRET_KEY,
+)
+s3 = session.resource('s3')
 
 ################################### LOADING MODELS ######################################
 
@@ -51,9 +61,14 @@ def save_uploaded_file(uploaded_file):
         'static/uploads' files keep in this folder
     """
     try:
+        server.logger.debug('Upload Function Hit')
         with open(os.path.join(server.config['UPLOAD_FOLDER'], uploaded_file.filename), 'wb') as f:
             f.write(uploaded_file.getbuffer())
-        s3_client.upload_file(os.path.join(server.config['UPLOAD_FOLDER'], uploaded_file.filename),bucket_name,f"{UPLOAD_FOLDER}{uploaded_file.filename}")
+        # Filename - File to upload
+        # Bucket - Bucket to upload to (the top level directory under AWS S3)
+        # Key - S3 object name (can contain subdirectories). If not specified then file_name is used
+        uploaded = s3.meta.client.upload_file(Filename=os.path.join(server.config['UPLOAD_FOLDER'], uploaded_file.filename), Bucket=bucket_name, Key=f"{UPLOAD_FOLDER}{uploaded_file.filename}")
+        server.logger.debug(f"Uploaded to S3 bucket")
         return 1
     except:
         return 0
