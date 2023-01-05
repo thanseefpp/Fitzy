@@ -7,6 +7,7 @@ scipy
 scikit-learn
 keras
 tensorflow
+boto3
 # tensorflow-cpu
 # tensorflow~=2.6.0
 # keras~=2.6.0
