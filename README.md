@@ -58,4 +58,16 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
+5. Create .env file
+
+```
+touch .env
+```
+
+6. Create .env file
+
+```
+touch .env
+```
+
 please follow my instagram [@thanseeftsf](https://www.instagram.com/thanseeftsf/) and ask any doubts.

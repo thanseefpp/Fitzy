@@ -11,6 +11,7 @@ import pickle
 from sklearn.neighbors import NearestNeighbors
 from werkzeug.utils import secure_filename
 import boto3
+from botocore.exceptions import NoCredentialsError
 from dotenv import load_dotenv   #for python-dotenv method
 load_dotenv()                    #for python-dotenv method
 
@@ -20,18 +21,12 @@ server = Flask(__name__)
 UPLOAD_FOLDER = 'static/uploads/'
 server.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 server.secret_key = "fitzy-apparels-recommendation"
-ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
+ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png','JPG','JPEG','PNG'])
 # S3 Bucket folder path and Bucket name 
 bucket_name = 'fitzy-models'
 
 ACCESS_KEY = os.environ.get('ACCESS_KEY')
 SECRET_KEY = os.environ.get('SECRET_KEY')
-
-session = boto3.Session(
-    aws_access_key_id=ACCESS_KEY,
-    aws_secret_access_key=SECRET_KEY,
-)
-s3 = session.resource('s3')
 
 ################################### LOADING MODELS ######################################
 
@@ -55,20 +50,31 @@ def allowed_file(filename):
     """
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def upload_to_aws(local_file, bucket, s3_file):
+    s3 = boto3.client('s3', aws_access_key_id=ACCESS_KEY,
+                      aws_secret_access_key=SECRET_KEY)
+    try:
+        s3.upload_file(local_file, bucket, s3_file)
+        server.logger.debug('Upload To S3 done')
+        return True
+    except FileNotFoundError:
+        server.logger.debug('The file was not found')
+        return False
+    except NoCredentialsError:
+        server.logger.debug('Credentials not available')
+        return False
+
 def save_uploaded_file(uploaded_file):
     """
         This Function is used to store the file that user uploaded
         'static/uploads' files keep in this folder
     """
     try:
-        server.logger.debug('Upload Function Hit')
-        with open(os.path.join(server.config['UPLOAD_FOLDER'], uploaded_file.filename), 'wb') as f:
-            f.write(uploaded_file.getbuffer())
-        # Filename - File to upload
-        # Bucket - Bucket to upload to (the top level directory under AWS S3)
-        # Key - S3 object name (can contain subdirectories). If not specified then file_name is used
-        uploaded = s3.meta.client.upload_file(Filename=os.path.join(server.config['UPLOAD_FOLDER'], uploaded_file.filename), Bucket=bucket_name, Key=f"{UPLOAD_FOLDER}{uploaded_file.filename}")
-        server.logger.debug(f"Uploaded to S3 bucket")
+        path = os.path.join(server.config['UPLOAD_FOLDER'], uploaded_file.filename)
+        uploaded_file.save(path)
+        uploaded = upload_to_aws(local_file=os.path.join(server.config['UPLOAD_FOLDER'], uploaded_file.filename),
+                                 bucket=bucket_name,
+                                 s3_file=f"{UPLOAD_FOLDER}{uploaded_file.filename}")
         return 1
     except:
         return 0
@@ -101,7 +107,7 @@ def get_nearest_neighbors(features, feature_list,number_of_recommendation):
     distances, indices = neighbors.kneighbors([features])
     return indices
 
-@server.route('/')
+@server.get('/')
 def landing_page():
     """
         landing page upload image form will appear on this screen.
@@ -110,7 +116,7 @@ def landing_page():
     server.logger.debug(f"current_folder_path :{current_folder_path},current_folder_name : {current_folder_name}")
     return render_template("index.html")
 
-@server.route('/', methods=['POST'])
+@server.post('/')
 def upload_image():
     """
         Main Function 
@@ -140,5 +146,5 @@ def upload_image():
                 filenames_path.append(filenames[nearest_neighbours_indices[0][count]])
             msg = 'Successfully Uploaded'
         else:
-            msg = 'Invalid Upload only png, jpg, jpeg'
+            msg = 'Upload to server got failed'
     return jsonify({'success_response': render_template('response.html', msg=msg,filename=filename, filesPathList=filenames_path)})

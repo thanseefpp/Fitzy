@@ -1,40 +1,58 @@
-{% if not filename %}
-    <div class="shell">
-      <div class="container">
-        <p><span>{{ msg }}</span></p>
-      </div>
-      </div>
-{% endif %}
-
-{% if filename %}
+{% if not filesPathList %}
+<style>
+  .error {
+    padding: 10px;
+    margin: 10px;
+    color: #333;
+    background: #fafafa;
+    border: 1px solid #ccc;
+    color: #ba3939;
+    background: #ffe0e0;
+    border: 1px solid #a33a3a;
+    text-align: center;
+  }
+</style>
     <div class="shell">
       <div class="container">
         <div class="row">
-          <div class="col-md-6">
-            <div class="wsk-cp-product">
-              <div class="wsk-cp-img">
-                <img src="https://fitzy-models.s3.ap-south-1.amazonaws.com/static/uploads/{{ filename }}" alt="Product" class="img-responsive" />
-              </div>
-              <div class="wsk-cp-text">
-                <div class="category">
-                  <span>{{ msg }}</span>
-                </div>
-              </div>
-            </div>
+          <div class="col-md-12">
+              <div class="error">{{ msg }}</div>
           </div>
-
-          {% for filepath in filesPathList %}
-          <div class="col-md-3">
-            <div class="wsk-cp-product">
-              <div class="wsk-cp-img"><img src="https://fitzy-models.s3.ap-south-1.amazonaws.com/{{filepath}}" alt="Product" class="img-responsive" /></div>
-              <div class="wsk-cp-text">
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-          
         </div>
       </div>
     </div>
+{% endif %}
 
+{% if filename %}
+  {% if filesPathList %}
+      <div class="shell">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="wsk-cp-product">
+                <div class="wsk-cp-img">
+                  <img src="https://fitzy-models.s3.ap-south-1.amazonaws.com/static/uploads/{{ filename }}" alt="Product" class="img-responsive" />
+                </div>
+                <div class="wsk-cp-text">
+                  <div class="category">
+                      <span>{{ msg }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {% for filepath in filesPathList %}
+            <div class="col-md-3">
+              <div class="wsk-cp-product">
+                <div class="wsk-cp-img"><img src="https://fitzy-models.s3.ap-south-1.amazonaws.com/{{filepath}}" alt="Product" class="img-responsive" /></div>
+                <div class="wsk-cp-text">
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            
+          </div>
+        </div>
+      </div>
+    {% endif %}
 {% endif %}
